@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Kuis Seni Budaya - Tantangan Artistik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@300;400;700&family=Baskervville&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Palet Warna Terinspirasi Budaya (Cokelat, Emas, Hijau Tosca) --- */
+        :root {
+            --color-primary: #5d4037; /* Cokelat Tua (Kopi/Batik Soga) */
+            --color-secondary: #ffc107; /* Emas (Aksen) */
+            --color-accent: #00897b; /* Hijau Tosca/Teal (Segar) */
+            --color-background: #fdf5e6; /* Krem Muda (Kertas Kuno) */
+            --color-text: #333333;
+            --color-light: #ffffff;
+            --coral-light: #fbe0d7;
+            --coral-dark: #f28482;
+        }
+
+        /* --- CSS Dasar dan Tata Letak (Artistik) --- */
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: var(--color-light);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px; /* Lebar lebih luas untuk modul */
+            border: 2px solid var(--color-primary);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 2.8em;
+            letter-spacing: 1px;
+            border-bottom: 3px solid var(--coral-dark); 
+            padding-bottom: 10px;
+        }
+
+        /* --- CPMK Box Baru --- */
+        #cpmk-box {
+            background-color: #e6f7ff; /* Sangat Biru Muda */
+            border: 2px solid #1890ff; /* Biru Solid */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        #cpmk-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1890ff;
+            margin-top: 0;
+            font-size: 1.5em;
+            text-align: center;
+            border-bottom: 2px dashed #a0cfff;
+            padding-bottom: 10px;
+        }
+
+        #cpmk-box ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #cpmk-box ul li {
+            margin-bottom: 8px;
+            font-size: 1em;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        #cpmk-box ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #1890ff;
+            font-weight: bold;
+        }
+
+
+        /* --- High Score Display --- */
+        #high-score-box {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: var(--color-accent);
+            font-size: 1.1em;
+            padding: 10px;
+            border: 1px dashed var(--color-accent);
+            border-radius: 8px;
+            background-color: #f0f8ff; /* Light Blue */
+        }
+        
+        /* --- Bagian Tujuan Pembelajaran & Pembahasan Ringkas --- */
+        #tujuan-box, #pembahasan-box {
+            background-color: #fff8e1; /* Light Yellow/Krem */
+            border: 2px solid var(--color-secondary); /* Emas */
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        #tujuan-box h2, #pembahasan-box h2, .module-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-primary);
+            margin-top: 0;
+            font-size: 1.7em;
+            border-left: 4px solid var(--color-accent);
+            padding-left: 10px;
+        }
+
+        #tujuan-box ul li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        #pembahasan-box p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        /* --- Gaya Modul Pembelajaran (Konten Detail) --- */
+        #module-content {
+            margin-top: 30px;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            background-color: #fefcfb;
+        }
+        
+        .module-section h3 {
+            font-family: 'Baskervville', serif;
+            color: var(--color-accent);
+            font-size: 1.4em;
+            margin-top: 25px;
+            border-bottom: 1px dashed var(--color-primary);
+            padding-bottom: 5px;
+        }
+
+        .konsep-item {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: flex-start;
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .konsep-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            color: var(--color-secondary);
+            flex-shrink: 0;
+        }
+
+        .konsep-item strong {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* --- Kotak Kuis dan Progres --- */
+        #quiz-content {
+            display: none;
+        }
+
+        .progress-bar {
+            height: 15px;
+            background-color: #e5e5e5;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background-color: var(--color-accent); /* Teal */
+            border-radius: 8px;
+            transition: width 0.4s ease;
+        }
+
+        .question-box {
+            margin-bottom: 25px;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: #f7f7f7;
+            border-left: 5px solid var(--coral-dark); /* Coral accent line */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-text {
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        /* --- Gaya Pilihan Jawaban --- */
+        .options label {
+            display: block;
+            margin-bottom: 15px;
+            padding: 18px;
+            background-color: var(--color-light);
+            border: 1px solid #c9c9c9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.2s;
+        }
+
+        .options label:hover {
+            background-color: var(--coral-light); /* Soft Coral Hover */
+            box-shadow: 0 3px 10px rgba(242, 132, 130, 0.3);
+            transform: translateY(-2px);
+        }
+
+        input[type="radio"] {
+            margin-right: 18px;
+            transform: scale(1.3);
+        }
+
+        /* --- Gaya Tombol --- */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 25px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        #start-btn, #toggle-module-btn {
+            background: linear-gradient(45deg, var(--color-accent), #a8dadc); /* Teal Gradien */
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 137, 123, 0.4);
+            margin-top: 15px;
+        }
+        #start-btn:hover, #toggle-module-btn:hover {
+            background: linear-gradient(45deg, #a8dadc, var(--color-accent));
+            transform: translateY(-3px);
+        }
+        
+        #retry-wrong-btn {
+            background: linear-gradient(45deg, var(--coral-dark), #ffb3b0); /* Coral Gradien */
+            color: white;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(242, 132, 130, 0.4);
+        }
+        #retry-wrong-btn:hover {
+            background: linear-gradient(45deg, #ffb3b0, var(--coral-dark));
+            transform: translateY(-3px);
+        }
+
+
+        #next-btn, #submit-btn {
+            background: linear-gradient(45deg, var(--color-primary), #788aa3); /* Deep Blue/Cokelat Gradien */
+            color: white;
+            display: none;
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.4);
+        }
+        #next-btn:hover, #submit-btn:hover {
+            background: linear-gradient(45deg, #788aa3, var(--color-primary));
+            transform: translateY(-3px);
+        }
+
+        /* --- Feedback dan Hasil --- */
+        #feedback {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .feedback-correct {
+            background-color: #d9f2e3; /* Soft Green */
+            color: #38761d;
+            border: 2px solid #8fbc8f;
+        }
+
+        .feedback-incorrect {
+            background-color: #f7e2e6; /* Soft Red/Pink */
+            color: #a04051;
+            border: 2px solid #e9967a;
+        }
+
+        #result {
+            margin-top: 35px;
+            padding: 40px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.7em;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body onload="displayHighScore()">
+
+<div class="quiz-container">
+    <h1><span style="color:var(--color-secondary); font-size:1.2em;">INDONESIA</span> <br> Galeri Seni & Budaya 🇮🇩</h1>
+    
+    <div id="cpmk-box">
+        <h2>🚀 Capaian Pembelajaran (CPMK)</h2>
+        <p style="font-style: italic; text-align: center; margin-bottom: 15px;">Kuis ini menguji kemampuan Anda untuk:</p>
+        <ul>
+            <li>**CPMK 1 (Seni Rupa):** Menganalisis teknik, prinsip, dan fungsi karya seni 2D/3D.</li>
+            <li>**CPMK 2 (Seni Musik):** Mengaplikasikan pengetahuan tentang tangga nada dan istilah tempo dalam musik.</li>
+            <li>**CPMK 3 (Seni Tari):** Menganalisis jenis gerak tari dan peran unsur pendukung.</li>
+        </ul>
+    </div>
+    <div id="high-score-box">
+        Skor Tertinggi Anda: <span id="high-score-value">0/10</span>
+    </div>
+
+    <div id="tujuan-box">
+        <h2>🎯 Kanvas Pembelajaran Anda</h2>
+        <p>Apresiasi kuis ini dirancang untuk menguji pemahaman Anda, dengan tujuan:</p>
+        <ul>
+            <li>✨ Seni Rupa: Menganalisis teknik, prinsip (Kesatuan), dan fungsi seni rupa 2D dan 3D.</li>
+            <li>🎶 Seni Musik: Mengidentifikasi tangga nada, jenis musik, dan istilah dalam aransemen vokal.</li>
+            <li>💃 Seni Tari: Menghubungkan gerak tari dengan maknanya (Maknawi vs Murni) dan mengenal alat musik pengiring.</li>
+        </ul>
+    </div>
+
+    <div id="pembahasan-box">
+        <h2>📚 Garis Besar Materi Uji</h2>
+        <p><strong>Seni Rupa:</strong> Fokus pada teknik seperti Plakat vs Aquarel, prinsip Kesatuan (Unity), dan fungsi seni.</p>
+        <p><strong>Seni Musik:</strong> Pahami tangga nada Pentatonis dan istilah tempo vokal seperti Akselerando.</p>
+        <p><strong>Seni Tari:</strong> Bedakan antara Tari Maknawi dan Tari Murni, serta peran Iringan Tari.</p>
+    </div>
+    
+    <button id="toggle-module-btn" class="btn" style="background: linear-gradient(45deg, #4a4e69, #788aa3); margin-top: 0; margin-bottom: 20px;">
+        Lihat/Sembunyikan Modul Pembelajaran Detail 📖
+    </button>
+    
+    <div id="module-content" style="display: none;">
+        
+        <div class="module-section">
+            <h2>🎨 Seni Rupa (2D & 3D)</h2>
+            <div class="konsep-item">
+                <span class="konsep-icon">🖌️</span>
+                <div>
+                    <h3>Teknik Melukis: Plakat vs Aquarel</h3>
+                    <p><strong>Plakat:</strong> Sapuan tebal, opak (menutupi). Ideal untuk realisme. (Terkait Soal 1)</p>
+                    <p><strong>Aquarel:</strong> Sapuan tipis, transparan. Menghasilkan kesan ringan.</p>
+                </div>
+            </div>
+            <div class="konsep-item">
+                <span class="konsep-icon">🔗</span>
+                <div>
+                    <h3>Prinsip Komposisi: Kesatuan (Unity)</h3>
+                    <p>Memastikan semua elemen visual (garis, warna, bentuk) saling berhubungan, selaras, dan menciptakan komposisi yang utuh. (Terkait Soal 3)</p>
+                </div>
+            </div>
+            <div class="konsep-item">
+                <span class="konsep-icon">⬆️</span>
+                <div>
+                    <h3>Seni Grafis: Cetak Tinggi</h3>
+                    <p>Teknik mencetak di mana permukaan yang dicetak adalah yang **lebih tinggi** (timbul) daripada permukaan yang tidak dicetak. (Terkait Soal 8)</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="module-section">
+            <h2>🎶 Seni Musik</h2>
+            <div class="konsep-item">
+                <span class="konsep-icon">🖐️</span>
+                <div>
+                    <h3>Tangga Nada Lokal: Pentatonis</h3>
+                    <p>Hanya terdiri dari **lima (penta) nada pokok** dalam satu oktaf, dominan dalam musik Gamelan. (Terkait Soal 7)</p>
+                </div>
+            </div>
+            <div class="konsep-item">
+                <span class="konsep-icon">⚡</span>
+                <div>
+                    <h3>Istilah Tempo Vokal: Akselerando</h3>
+                    <p>Berarti **mempercepat tempo** secara bertahap dalam aransemen vokal atau orkestra. (Terkait Soal 2)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <h2>💃 Seni Tari</h2>
+            <div class="konsep-item">
+                <span class="konsep-icon">🌾</span>
+                <div>
+                    <h3>Jenis Gerak Tari: Maknawi vs Murni</h3>
+                    <p><strong>Tari Maknawi:</strong> Gerakan yang **memiliki arti** (misal: memanen pada Tari Piring). (Terkait Soal 4)</p>
+                    <p><strong>Tari Murni:</strong> Hanya mementingkan **keindahan estetika** gerak tanpa makna spesifik.</p>
+                </div>
+            </div>
+            <div class="konsep-item">
+                <span class="konsep-icon">🥁</span>
+                <div>
+                    <h3>Peran Iringan Tari</h3>
+                    <p>Berfungsi sebagai **penentu ritme, tempo, ketepatan gerakan,** dan sinyal untuk pergantian adegan. (Terkait Soal 9)</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <button id="start-btn" class="btn">Mulai Tantangan Artistik Sekarang! 🚀</button>
+
+    <div id="quiz-content">
+        <div class="progress-bar"><div class="progress" id="progress-indicator"></div></div>
+        
+        <div id="question-area">
+            </div>
+
+        <div id="feedback" role="alert" aria-live="assertive"></div>
+
+        <button id="next-btn" class="btn">Lanjut ke Soal Berikutnya >></button>
+        <button id="submit-btn" class="btn">Selesaikan Kuis & Lihat Hasil</button>
+    </div>
+
+    <div id="result" role="status" aria-live="polite">
+        </div>
+</div>
+
+<script>
+    // 1. DATA SOAL
+    const allQuizQuestions = [
+        {
+            question: "1. Manakah dari teknik melukis berikut yang paling cocok digunakan untuk menghasilkan kesan realis tebal dan menutupi lapisan warna di bawahnya secara sempurna?",
+            options: { A: "Aquarel", B: "Sgraffito", C: "Plakat", D: "Poinstilis" },
+            answer: "C"
+        },
+        {
+            question: "2. Dalam konteks aransemen musik vokal, istilah 'akselerando' (accelerando) merujuk pada perubahan...",
+            options: { A: "Tinggi nada", B: "Kekuatan vokal (dinamika)", C: "Tempo lagu", D: "Warna suara (timbre)" },
+            answer: "C"
+        },
+        {
+            question: "3. Seni rupa yang menitikberatkan pada kesamaan unsur-unsur visual dan menciptakan hubungan yang utuh dalam komposisi karya adalah prinsip...",
+            options: { A: "Irama (Rhythm)", B: "Keseimbangan (Balance)", C: "Kesatuan (Unity)", D: "Penekanan (Emphasis)" },
+            answer: "C"
+        },
+        {
+            question: "4. Tari Piring (Sumatera Barat) termasuk dalam jenis gerak Tari Maknawi karena...",
+            options: { A: "Gerakannya sangat cepat dan penuh semangat.", B: "Menggambarkan aktivitas petani memanen hasil bumi.", C: "Hanya bertujuan sebagai hiburan tanpa makna.", D: "Diiringi oleh alat musik modern." },
+            answer: "B"
+        },
+        {
+            question: "5. Di antara alat musik tradisional berikut, manakah yang berfungsi sebagai alat musik melodis dalam ansambel Gamelan Jawa?",
+            options: { A: "Gong", B: "Kendang", C: "Saron", D: "Kenong" },
+            answer: "C"
+        },
+        {
+            question: "6. Jika Anda ingin menciptakan sebuah karya seni rupa 3 dimensi yang mewakili keindahan alam murni dan tidak memiliki fungsi pakai, manakah yang paling sesuai?",
+            options: { A: "Gerabah", B: "Patung Abstrak", C: "Kerajinan Batik", D: "Anyaman Bambu" },
+            answer: "B"
+        },
+        {
+            question: "7. Tangga nada yang umum digunakan dalam musik daerah Indonesia, seperti Gamelan, yang memiliki lima nada pokok dengan jarak interval yang tidak sama, disebut...",
+            options: { A: "Diatonis Mayor", B: "Kromatis", C: "Pentatonis", D: "Oktavis" },
+            answer: "C"
+        },
+        {
+            question: "8. Karya seni grafis yang proses pencetakannya menggunakan matriks/klise yang permukaannya lebih tinggi daripada bagian yang dicetak adalah jenis...",
+            options: { A: "Cetak Saring (Screen Printing)", B: "Cetak Dalam (Intaglio)", C: "Cetak Datar (Lithography)", D: "Cetak Tinggi (Relief Print)" },
+            answer: "D"
+        },
+        {
+            question: "9. Dalam sebuah pementasan tari, bagian yang berfungsi sebagai penentu ketepatan gerakan dan pergantian adegan disebut...",
+            options: { A: "Properti", B: "Tata Rias", C: "Iringan Tari (Musik)", D: "Komposisi Panggung" },
+            answer: "C"
+        },
+        {
+            question: "10. Manakah yang merupakan salah satu ciri utama dari musik kontemporer (modern) dibandingkan musik tradisional?",
+            options: { A: "Selalu menggunakan tangga nada diatonis.", B: "Berorientasi pada penemuan sumber bunyi baru.", C: "Mempertahankan ritme yang monoton dan sederhana.", D: "Wajib diiringi instrumen akustik." },
+            answer: "B"
+        }
+    ];
+
+    // 2. VARIABEL STATUS KUIS
+    const HIGH_SCORE_KEY = 'seniBudayaHighScore';
+    let currentQuizQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let wrongQuestionIndices = [];
+
+    // 3. ELEMEN DOM
+    const startBtn = document.getElementById('start-btn');
+    const tujuanBox = document.getElementById('tujuan-box');
+    const pembahasanBox = document.getElementById('pembahasan-box');
+    const highScoreBox = document.getElementById('high-score-box');
+    const quizContent = document.getElementById('quiz-content');
+    const questionArea = document.getElementById('question-area');
+    const feedbackDiv = document.getElementById('feedback');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultDiv = document.getElementById('result');
+    const progressIndicator = document.getElementById('progress-indicator');
+    const moduleContent = document.getElementById('module-content');
+    const toggleModuleBtn = document.getElementById('toggle-module-btn');
+    const cpmkBox = document.getElementById('cpmk-box');
+    const totalMaxQuestions = allQuizQuestions.length;
+
+
+    // 4. FUNGSI UTILITAS (LOCAL STORAGE)
+    
+    function getHighScore() {
+        return parseInt(localStorage.getItem(HIGH_SCORE_KEY) || 0);
+    }
+
+    function setHighScore(newScore) {
+        if (newScore > getHighScore()) {
+            localStorage.setItem(HIGH_SCORE_KEY, newScore);
+            return true;
+        }
+        return false;
+    }
+
+    function displayHighScore() {
+        document.getElementById('high-score-value').textContent = `${getHighScore()}/${totalMaxQuestions}`;
+    }
+
+
+    // 5. FUNGSI UTAMA
+    
+    function initializeQuiz(mode = 'full') {
+        score = 0;
+        currentQuestionIndex = 0;
+        
+        if (mode === 'full') {
+            currentQuizQuestions = allQuizQuestions;
+            wrongQuestionIndices = [];
+        } else if (mode === 'retry') {
+            currentQuizQuestions = wrongQuestionIndices.map(index => {
+                const originalQ = allQuizQuestions[index];
+                return { 
+                    ...originalQ, 
+                    originalNumber: index + 1,
+                    isRetry: true
+                };
+            });
+
+            if (currentQuizQuestions.length === 0) {
+                 resultDiv.innerHTML = '<p class="feedback-correct">Hebat! Semua soal sudah benar! Mulai kuis penuh lagi!</p>';
+                 return;
+            }
+        }
+        
+        // Sembunyikan semua elemen pengantar
+        tujuanBox.style.display = 'none';
+        pembahasanBox.style.display = 'none';
+        startBtn.style.display = 'none';
+        highScoreBox.style.display = 'none';
+        toggleModuleBtn.style.display = 'none'; 
+        moduleContent.style.display = 'none'; 
+        cpmkBox.style.display = 'none'; // Sembunyikan CPMK Box
+        resultDiv.style.display = 'none';
+        
+        quizContent.style.display = 'block';
+        loadQuestion();
+    }
+    
+    function loadQuestion() {
+        const qData = currentQuizQuestions[currentQuestionIndex];
+        const totalQuestions = currentQuizQuestions.length;
+        
+        const questionNumberDisplay = qData.isRetry 
+            ? `(Soal Asli No. ${qData.originalNumber}) ${currentQuestionIndex + 1}/${totalQuestions}. `
+            : `${currentQuestionIndex + 1}/${totalQuestions}. `;
+
+        let optionsHtml = '';
+        
+        for (const key in qData.options) {
+            optionsHtml += `
+                <label>
+                    <input type="radio" name="currentQ" value="${key}"> <span>${key}. ${qData.options[key]}</span>
+                </label>
+            `;
+        }
+        
+        questionArea.innerHTML = `
+            <div class="question-box">
+                <p class="question-text">${questionNumberDisplay}${qData.question.substring(qData.question.indexOf('.') + 2)}</p>
+                <div class="options" id="options-group">${optionsHtml}</div>
+            </div>
+        `;
+
+        feedbackDiv.style.display = 'none';
+        feedbackDiv.textContent = '';
+        nextBtn.style.display = 'none';
+        submitBtn.style.display = 'none';
+        
+        updateProgress();
+    }
+
+    function checkAnswer(userAnswer) {
+        const radioInputs = questionArea.querySelectorAll('input[type="radio"]');
+        let alreadyAnswered = Array.from(radioInputs).some(input => input.disabled);
+        
+        if (alreadyAnswered) return;
+
+        const qData = currentQuizQuestions[currentQuestionIndex];
+        const isRetryMode = qData.isRetry;
+        const totalQuestions = currentQuizQuestions.length;
+        
+        radioInputs.forEach(input => {
+            input.disabled = true;
+        });
+
+        let isCorrect = (userAnswer === qData.answer);
+        
+        if (isCorrect) {
+            feedbackDiv.className = 'feedback-correct';
+            feedbackDiv.textContent = '🎉 Jawaban Anda BENAR! Pilihan tepat.';
+            
+            if (!isRetryMode) score++;
+            
+            if (isRetryMode) {
+                const originalIndex = qData.originalNumber - 1;
+                const indexToRemove = wrongQuestionIndices.indexOf(originalIndex);
+                if (indexToRemove > -1) {
+                    wrongQuestionIndices.splice(indexToRemove, 1);
+                }
+            }
+
+        } else {
+            feedbackDiv.className = 'feedback-incorrect';
+            feedbackDiv.textContent = `❌ Jawaban Anda SALAH. Jawaban yang benar adalah ${qData.answer}.`;
+            
+            if (!isRetryMode) {
+                const originalQIndex = allQuizQuestions.indexOf(qData);
+                if (wrongQuestionIndices.indexOf(originalQIndex) === -1) {
+                    wrongQuestionIndices.push(originalQIndex);
+                }
+            }
+        }
+        
+        feedbackDiv.style.display = 'block';
+
+        if (currentQuestionIndex < totalQuestions - 1) {
+            nextBtn.style.display = 'block';
+        } else {
+            submitBtn.style.display = 'block';
+            nextBtn.style.display = 'none';
+        }
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentQuizQuestions.length) {
+            loadQuestion();
+        }
+    }
+
+    function showResults() {
+        quizContent.style.display = 'none';
+        resultDiv.style.display = 'block';
+        
+        const isRetryMode = currentQuizQuestions[0] && currentQuizQuestions[0].isRetry;
+        
+        if (isRetryMode) {
+            const wrongCount = wrongQuestionIndices.length;
+            let retryMessage = '';
+            
+            if (wrongCount === 0) {
+                if (setHighScore(totalMaxQuestions)) {
+                     displayHighScore();
+                }
+                retryMessage = `🥳 SEMPURNA! Anda berhasil menguasai semua ${totalMaxQuestions} soal! Selamat!`;
+                resultClass = 'feedback-correct';
+            } else {
+                retryMessage = `👍 KERJA BAGUS! Anda masih memiliki ${wrongCount} soal yang perlu dikuasai. Coba ulangi lagi!`;
+                resultClass = 'feedback-incorrect';
+            }
+            
+            resultDiv.className = resultClass;
+            resultDiv.innerHTML = `<p>${retryMessage}</p>`;
+            
+            if (wrongCount > 0) {
+                resultDiv.innerHTML += `<button id="retry-wrong-btn" class="btn">🔁 Ulangi ${wrongCount} Soal yang Tersisa</button>`;
+                document.getElementById('retry-wrong-btn').addEventListener('click', () => initializeQuiz('retry'));
+            }
+        } else {
+            const totalQuestions = currentQuizQuestions.length;
+            const percentage = (score / totalQuestions) * 100;
+            const wrongCount = totalQuestions - score;
+
+            if (setHighScore(score)) {
+                displayHighScore();
+            }
+
+            let finalMessage = '';
+            let resultClass = '';
+
+            if (percentage === 100) {
+                finalMessage = `MAESTRO! Skor sempurna ${score}/${totalQuestions}! Anda menguasai Seni Budaya! 🌟`;
+                resultClass = 'feedback-correct';
+            } else if (percentage >= 80) {
+                finalMessage = `HEBAT! Anda mendapatkan ${score}/${totalQuestions}. Anda hanya salah ${wrongCount} soal! 💪`;
+                resultClass = 'feedback-correct';
+            } else if (percentage >= 60) {
+                finalMessage = `CUKUP BAIK! Anda mendapatkan ${score}/${totalQuestions}. Anda salah ${wrongCount} soal. 👍`;
+                resultClass = 'feedback-incorrect';
+            } else {
+                finalMessage = `AYO BELAJAR LAGI! Anda mendapatkan ${score}/${totalQuestions}. Coba ulangi soal yang salah! 📚`;
+                resultClass = 'feedback-incorrect';
+            }
+
+            resultDiv.className = resultClass;
+            resultDiv.innerHTML = `<p>${finalMessage}</p>`;
+            
+            if (wrongCount > 0) {
+                resultDiv.innerHTML += `<button id="retry-wrong-btn" class="btn">🔁 Ulangi ${wrongCount} Soal yang Salah</button>`;
+                document.getElementById('retry-wrong-btn').addEventListener('click', () => initializeQuiz('retry'));
+            }
+        }
+        
+        // Tampilkan tombol dan kotak pengantar lagi setelah selesai
+        toggleModuleBtn.style.display = 'block';
+        startBtn.style.display = 'block';
+        highScoreBox.style.display = 'block';
+        tujuanBox.style.display = 'block';
+        pembahasanBox.style.display = 'block';
+        cpmkBox.style.display = 'block'; // Tampilkan kembali CPMK Box
+    }
+    
+    function updateProgress() {
+        const total = currentQuizQuestions.length;
+        const progressWidth = Math.max(5, ((currentQuestionIndex) / total) * 100); 
+        progressIndicator.style.width = `${progressWidth}%`;
+    }
+
+    // 6. EVENT LISTENERS
+    
+    // Tombol Lanjut
+    nextBtn.addEventListener('click', nextQuestion);
+
+    // Tombol Selesaikan 
+    submitBtn.addEventListener('click', showResults);
+    
+    // Tombol Toggle Modul
+    toggleModuleBtn.addEventListener('click', () => {
+        const isHidden = moduleContent.style.display === 'none';
+        moduleContent.style.display = isHidden ? 'block' : 'none';
+        toggleModuleBtn.textContent = isHidden 
+            ? 'Sembunyikan Modul Pembelajaran Detail 📕' 
+            : 'Lihat/Sembunyikan Modul Pembelajaran Detail 📖';
+    });
+
+    // Event Delegation untuk pilihan jawaban
+    questionArea.addEventListener('change', (event) => {
+        if (event.target.matches('input[type="radio"]')) {
+            checkAnswer(event.target.value);
+        }
+    });
+
+    // Tombol Mulai Kuis (perlu didefinisikan ulang karena DOM-nya berubah)
+    startBtn.addEventListener('click', () => {
+        initializeQuiz('full');
+    });
+
+</script>
+
+</body>
+</html>
